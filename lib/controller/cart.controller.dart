@@ -5,17 +5,21 @@ class CartController extends GetxController {
   RxList<Menu> menus = <Menu>[].obs;
   int pay = 0;
 
-  Future<bool> addItem(Menu menu) async {
+  Future<bool> addItem(Menu menu, int quantity, context) async {
     bool isAdded = false;
     int index = List.from(menus).indexWhere((e) => e.id == menu.id);
 
     if (index == -1) {
+      menu.quantity = quantity;
       menus.add(menu);
       isAdded = true;
     } else {
-      menus[index].quantity = menus[index].quantity! + menu.quantity!;
+      menus[index].quantity = menus[index].quantity! + quantity;
       isAdded = true;
     }
+
+    menus.refresh();
+
     return isAdded;
   }
 
@@ -31,7 +35,7 @@ class CartController extends GetxController {
 
   removeQuantity(int index) {
     Menu menu = get(index).value;
-    if (menu.quantity! > 0) {
+    if (menu.quantity! > 1) {
       menu.quantity = menu.quantity! - 1;
       menus.refresh();
     }

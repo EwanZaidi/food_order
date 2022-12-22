@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:food_order/main_menu.dart';
 import 'package:food_order/register.dart';
+import 'package:food_order/screen/new_layout/new_pos.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -171,7 +171,7 @@ class _SignInState extends State<SignIn> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const MainMenuScreen(),
+          builder: (context) => const NewPosScreen(),
         ),
       );
     } else {

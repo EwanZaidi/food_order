@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:food_order/controller/cart.controller.dart';
 import 'package:food_order/model/menu.dart';
-import 'package:food_order/provider/menu_provider.dart';
+import 'package:food_order/provider/cart_provider.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +50,6 @@ class _PosScreenState extends State<PosScreen> {
                   child: const Text('Okay'),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pop();
                   },
                 ),
               ],
@@ -84,13 +83,6 @@ class _PosScreenState extends State<PosScreen> {
     return Builder(builder: (context) {
       return Obx(
         () => Scaffold(
-          appBar: AppBar(
-            actions: [
-              IconButton(
-                  onPressed: cartController.clear,
-                  icon: const Icon(Icons.delete))
-            ],
-          ),
           bottomNavigationBar: SizedBox(
             height: 50,
             child: ElevatedButton(
@@ -109,8 +101,8 @@ class _PosScreenState extends State<PosScreen> {
                   itemCount: cartController.menus.length,
                   itemBuilder: (context, index) {
                     Menu menu = cartController.menus[index];
-                    return ChangeNotifierProvider<MenuProvider>(
-                      create: (context) => MenuProvider(menu: menu),
+                    return ChangeNotifierProvider<CartProvider>(
+                      create: (context) => CartProvider(menu: menu),
                       child: Card(
                         child: ListTile(
                           leading: CircleAvatar(
@@ -186,8 +178,7 @@ class Total extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MenuProvider>(context);
-    final menu = provider.menu;
+    final provider = Provider.of<CartProvider>(context);
     return Text(provider.totalInRM);
   }
 }
@@ -200,8 +191,9 @@ class Subtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CartController cartController = Get.put(CartController());
-    final provider = Provider.of<MenuProvider>(context);
+    final provider = Provider.of<CartProvider>(context);
     final menu = provider.menu;
+    provider.quantity = provider.menu.quantity!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

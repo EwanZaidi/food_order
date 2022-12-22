@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food_order/controller/cart.controller.dart';
 import 'package:food_order/screen/category/category_list.dart';
-import 'package:food_order/screen/pos/pos.dart';
+import 'package:food_order/screen/new_layout/new_pos.dart';
 import 'package:food_order/screen/report/report.dart';
 import 'package:food_order/signin.dart';
 import 'package:get/get.dart';
@@ -63,7 +63,7 @@ class MainMenuScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PosScreen(),
+                          builder: (context) => const NewPosScreen(),
                         ),
                       );
                     },

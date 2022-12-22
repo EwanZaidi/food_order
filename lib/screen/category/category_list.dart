@@ -61,35 +61,52 @@ class _CategoriesState extends State<Categories> {
                 categories.add(Category.fromJson(data));
               }
 
-              return ListView.builder(
-                padding: const EdgeInsets.all(20),
-                itemCount: categories.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          categories[index].imageUrl,
-                        ), // no matter how big it is, it won't overflow
-                      ),
-                      title: Text(categories[index].name),
-                      trailing: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CategoryDetails(
-                                  category: categories[index],
-                                ),
+              return GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 6,
+                    childAspectRatio: 1.0,
+                  ),
+                  itemCount: categories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Category category = categories[index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CategoryDetails(
+                              category: category,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                category.imageUrl,
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.chevron_right_sharp)),
-                    ),
-                  );
-                },
-              );
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              category.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  });
             } else {
               return const Center(
                 child: Text("No Data"),
