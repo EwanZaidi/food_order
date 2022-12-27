@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_order/controller/cart.controller.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:food_order/drawer/drawer_menu.dart';
 import 'package:food_order/model/menu.dart';
 import 'package:food_order/provider/menu_provider.dart';
 import 'package:food_order/screen/new_layout/categories.dart';
@@ -51,6 +52,8 @@ class _NewPosScreenState extends State<NewPosScreen> {
     var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(),
+        drawer: const DrawerMenu(),
         body: SizedBox(
           width: width,
           child: Row(

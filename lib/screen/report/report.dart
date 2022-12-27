@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:food_order/drawer/drawer_menu.dart';
 import 'package:food_order/model/order.dart';
 import 'package:food_order/screen/report/report_details.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,7 @@ class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerMenu(),
       appBar: AppBar(
         title: const Text("Report"),
       ),
