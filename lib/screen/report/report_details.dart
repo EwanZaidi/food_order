@@ -45,6 +45,31 @@ class _ReportDetailsState extends State<ReportDetails> {
                 )
               ],
             ),
+            if (widget.report.table != null)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Table Number",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        widget.report.table!,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             const SizedBox(
               height: 10,
             ),

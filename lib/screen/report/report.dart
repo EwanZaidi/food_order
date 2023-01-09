@@ -45,6 +45,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 Map<String, dynamic> data = {
                   '_id': child.key,
                   'balance': value['balance'],
+                  'table': value['table'],
                   'date': value['date'],
                   'menus': menus,
                   'payment': value['payment'],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:food_order/controller/cart.controller.dart';
 import 'package:food_order/screen/new_layout/new_pos.dart';
+import 'package:food_order/screen/new_layout/tables.dart';
 import 'package:food_order/screen/report/report.dart';
 import 'package:food_order/signin.dart';
 import 'package:get/get.dart';
@@ -43,6 +44,19 @@ class DrawerMenu extends StatelessWidget {
                 context,
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => const ReportScreen(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.table_bar),
+            title: const Text("TABLES"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushReplacement<void, void>(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const TablesScreen(),
                 ),
               );
             },

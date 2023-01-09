@@ -17,6 +17,8 @@ class _PosScreenState extends State<PosScreen> {
   CartController cartController = Get.put(CartController());
   num balance = 0;
   num pay = 0;
+  String table = '';
+  final tableRef = FirebaseDatabase.instance.ref("tables");
   @override
   void initState() {
     // TODO: implement initState
@@ -26,6 +28,7 @@ class _PosScreenState extends State<PosScreen> {
 
   submit(num payment, num bal) {
     Map<String, dynamic> data = {
+      'table': table,
       'payment': payment,
       'balance': bal,
       'menus': CartMenuList.toMap(cartController.menus),
@@ -87,7 +90,26 @@ class _PosScreenState extends State<PosScreen> {
             height: 50,
             child: ElevatedButton(
               onPressed: () async {
-                submit(pay, balance);
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: const Text('Printer'),
+                          content: const Text('Printer Not Found'),
+                          actions: <Widget>[
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                textStyle:
+                                    Theme.of(context).textTheme.labelLarge,
+                              ),
+                              child: const Text('Okay'),
+                              onPressed: () {
+                                submit(pay, balance);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ));
               },
               child: const Text("Pay"),
             ),
@@ -120,6 +142,47 @@ class _PosScreenState extends State<PosScreen> {
                 const SizedBox(
                   height: 20,
                 ),
+                StreamBuilder(
+                    stream: tableRef.onValue,
+                    builder: (context, snapshot) {
+                      List<String> tables = [];
+                      tables.add('');
+                      if (snapshot.hasData && snapshot.data != null) {
+                        for (var child in snapshot.data!.snapshot.children) {
+                          tables.add(child.value.toString());
+                        }
+
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text("Table"),
+                            DropdownButton<String>(
+                              value: table,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              elevation: 16,
+                              underline: Container(),
+                              onChanged: (String? value) {
+                                // This is called when the user selects an item.
+                                setState(() {
+                                  table = value!;
+                                });
+                              },
+                              items: tables.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const Center(
+                          child: Text("No Data"),
+                        );
+                      }
+                    }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
